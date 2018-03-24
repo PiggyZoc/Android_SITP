@@ -58,6 +58,7 @@ public class LoginActivity extends MyActivity {
         name = "ActivityLogin";
         setContentView(R.layout.login_layout);
         ma = this;
+        ActivityManager.getActivityManager().addActivity(this);
         btn=findViewById(R.id.btnlogin);
         txtId=findViewById(R.id.idlogin);
         txtPsw=findViewById(R.id.pswlogin);

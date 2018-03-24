@@ -40,10 +40,17 @@ public class ViewBlogActivity extends MyActivity {
         setContentView(R.layout.test_viewblog);
         ma = this;
         blog_id=String.valueOf(CurrentEditBlog.getInstance().getBlogModel().blog_id);
-        myWebView = findViewById(R.id.webview);
+        ActivityManager.getActivityManager().addActivity(this);
+         myWebView = findViewById(R.id.webview);
+        //myWebView.loadUrl("http://wz66.top:86/demo.html");
         myWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         myWebView.getSettings().setLoadWithOverviewMode(true);
         loadBolg();
+       // blog_id = String.valueOf(CurrentEditBlog.getInstance().getBlogModel().blog_id);
+        //linearLayout = findViewById(R.id.linearLayout);
+        // asynTask asynTask=new asynTask();
+        //asynTask.execute();
+        //ShowImgBase64String();
     }
 
 
