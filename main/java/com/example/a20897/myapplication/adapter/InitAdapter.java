@@ -26,7 +26,7 @@ public class InitAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return 0;
+        return mData.size();
     }
 
     @Override

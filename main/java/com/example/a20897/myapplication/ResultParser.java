@@ -98,7 +98,6 @@ public class ResultParser {
         }
         return arrayList;
     }
-
     public static ArrayList<BlogModel>parseBlogs(String response) throws Exception {
 
         ArrayList<BlogModel> arrayList = new ArrayList<>();
@@ -124,7 +123,6 @@ public class ResultParser {
                                     break;
                                 case 2:
                                     blogModel.Writer_id=atom[1];
-                                    blogModel.Writer_name=atom[1];
                                     count++;
                                     break;
                                 case 3:

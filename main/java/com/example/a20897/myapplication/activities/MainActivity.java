@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import com.example.a20897.myapplication.QueryManager;
 import com.example.a20897.myapplication.R;
 import com.example.a20897.myapplication.ResultParser;
 import com.example.a20897.myapplication.UserAccount;
+import com.example.a20897.myapplication.adapter.InitAdapter;
 import com.example.a20897.myapplication.models.BlogModel;
 
 import java.util.ArrayList;
@@ -24,6 +26,8 @@ public class MainActivity extends MyActivity {
     private Button btn4;
     private ImageView me_icon;
     private TextView textView;
+    private ListView hotblogs;
+    ArrayList<BlogModel> models;
     private MyActivity ma;
     @Override
     protected void onResume(){
@@ -52,6 +56,9 @@ public class MainActivity extends MyActivity {
         btn4=findViewById(R.id.btn4);
         me_icon=findViewById(R.id.me_icon);
         textView=findViewById(R.id.textView);
+        hotblogs=findViewById(R.id.hotblogs);
+        models=new ArrayList<>();
+        initUI();
         btn1.setOnClickListener(mClickLisener1);
         btn2.setOnClickListener(mClickLisener2);
         btn3.setOnClickListener(mClickListener3);
@@ -59,6 +66,12 @@ public class MainActivity extends MyActivity {
         me_icon.setOnClickListener(mClickLisener5);
 
     }
+
+    private void initUI() {
+        QueryManager qm = new QueryManager(ma);
+        qm.execute("getManyBlogs");
+    }
+
     private View.OnClickListener mClickLisener1=(v)->{
         QueryManager qm = new QueryManager(ma);
         qm.execute("getManyBlogs");
@@ -98,11 +111,11 @@ public class MainActivity extends MyActivity {
                 case "getManyBlogs":
                     if(arrayList.size()>1){
                         String rs=arrayList.get(1);
-                        ArrayList<BlogModel> models = ResultParser.parseHotBlogs(rs);
-
-                        System.out.println(models);
+                        models= ResultParser.parseHotBlogs(rs);
+                        InitAdapter initAdapter=new InitAdapter(this,models);
+                        hotblogs.setAdapter(initAdapter);
                     }
-        }
+            }
         }catch (Exception e){}
     }
 }
