@@ -1,6 +1,8 @@
 package com.example.a20897.myapplication;
 
 import android.os.AsyncTask;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
  * Created by 20897 on 2017/12/26.
  */
 
+@RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
 public class QueryManager extends AsyncTask<String, Integer, ArrayList<String>>{
     private String SERVICE_NS = "http://tempuri.org/";
     private String SERVICE_URL = "http://wz66.top:86/service1.asmx";

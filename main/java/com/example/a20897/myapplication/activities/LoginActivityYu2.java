@@ -95,9 +95,9 @@ public class LoginActivityYu2 extends MyActivity implements LoaderCallbacks<Curs
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         name = "ActivityLoginYu";
-        setContentView(R.layout.login_layout);
+
         ma = this;
-        ActivityManager.getActivityManager().addActivity(this);
+
         setContentView(R.layout.activity_login_yu2);
         // Set up the login form.
         mUserNameView = (AutoCompleteTextView) findViewById(R.id.login_user_name);
