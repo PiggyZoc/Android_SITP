@@ -1,6 +1,7 @@
 package com.example.a20897.myapplication.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.example.a20897.myapplication.CurrentEditBlog;
 import com.example.a20897.myapplication.R;
 import com.example.a20897.myapplication.activities.MyBlogsActivity;
+import com.example.a20897.myapplication.activities.ViewBlogActivity;
 import com.example.a20897.myapplication.models.BlogModel;
 
 import java.util.List;
@@ -23,9 +25,11 @@ import java.util.Map;
 public class ListAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private List<Map<String, Object>> mData;
+    private Context context;
     public ListAdapter(Context context,List<Map<String, Object>> data) {
         super();
         this.mInflater = LayoutInflater.from(context);
+        this.context=context;
         this.mData=data;
     }
     @Override
@@ -71,7 +75,9 @@ public class ListAdapter extends BaseAdapter {
                 bm.blog_id=(Integer) mData.get(position).get("info");
                 bm.title=(String)mData.get(position).get("title");
                 CurrentEditBlog.getInstance().setBlogModel(bm);
-
+                Intent intent=new Intent();
+                intent.setClass(context, ViewBlogActivity.class);
+                context.startActivity(intent);
             }
         });
 

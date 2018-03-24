@@ -87,7 +87,6 @@ public class WriteBlogActivity extends MyActivity  {
         name = "ActivityWriteBlog";
         setContentView(R.layout.wrireblog_layout);
         ma = this;
-        ActivityManager.getActivityManager().addActivity(this);
         this.InsertBlogWithoutTitle();
         bm=new BlogModel();
         btn=findViewById(R.id.btnPublish);

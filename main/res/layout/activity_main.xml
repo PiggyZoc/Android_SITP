@@ -31,7 +31,13 @@
         android:gravity="center"
 
         android:orientation="horizontal">
-
+         <Button
+             android:id="@+id/btn1"
+             android:layout_weight="1"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:text="Re"
+             />
 
          <Button
              android:id="@+id/btn3"
