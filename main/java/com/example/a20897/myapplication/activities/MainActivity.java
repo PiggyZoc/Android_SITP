@@ -11,7 +11,9 @@ import android.widget.TextView;
 import com.example.a20897.myapplication.MyActivity;
 import com.example.a20897.myapplication.QueryManager;
 import com.example.a20897.myapplication.R;
+import com.example.a20897.myapplication.ResultParser;
 import com.example.a20897.myapplication.UserAccount;
+import com.example.a20897.myapplication.models.BlogModel;
 
 import java.util.ArrayList;
 
@@ -96,9 +98,11 @@ public class MainActivity extends MyActivity {
                 case "getManyBlogs":
                     if(arrayList.size()>1){
                         String rs=arrayList.get(1);
-                        System.out.println(rs);
+                        ArrayList<BlogModel> models = ResultParser.parseHotBlogs(rs);
+
+                        System.out.println(models);
                     }
-            }
+        }
         }catch (Exception e){}
     }
 }

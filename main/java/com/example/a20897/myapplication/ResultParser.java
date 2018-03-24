@@ -51,6 +51,54 @@ public class ResultParser {
             }
          return um;
     }
+    public static ArrayList<BlogModel>parseHotBlogs(String response) throws Exception {
+
+        ArrayList<BlogModel> arrayList = new ArrayList<>();
+        if(!response.isEmpty()) {
+            String array[]=response.split("BlogModel=anyType");
+            for (String string : array) {
+                if(string.contains("blog_id")) {
+                    String subarray[]=string.split(";");
+                    BlogModel blogModel=new BlogModel();
+                    for (int i = 0; i < subarray.length; i++) {
+                        if(subarray[i].contains("=")) {
+
+                            String[] atom=subarray[i].split("=");
+                            for (int j = 0; j < atom.length; j++){
+                                switch (atom[0]) {
+                                    case "{blog_id":
+                                        blogModel.blog_id=Integer.parseInt(atom[1]);
+                                        break;
+                                    case " title":
+                                        blogModel.title=atom[1];
+                                        break;
+                                    case " Writer_name":
+                                        blogModel.Writer_name=atom[1];
+                                        blogModel.Writer_id=atom[1];
+                                        break;
+                                    case " Create_time":
+                                        blogModel.Create_time=atom[1];
+                                        break;
+                                    case " url":
+                                        blogModel.blog_url=atom[1];
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+                            }
+                        }
+                    }
+
+                    arrayList.add(blogModel);
+                }
+            }
+
+
+        }
+        return arrayList;
+    }
+
     public static ArrayList<BlogModel>parseBlogs(String response) throws Exception {
 
         ArrayList<BlogModel> arrayList = new ArrayList<>();
@@ -76,6 +124,7 @@ public class ResultParser {
                                     break;
                                 case 2:
                                     blogModel.Writer_id=atom[1];
+                                    blogModel.Writer_name=atom[1];
                                     count++;
                                     break;
                                 case 3:
