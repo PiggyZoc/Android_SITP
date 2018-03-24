@@ -4,7 +4,9 @@ import com.example.a20897.myapplication.models.BlogModel;
 import com.example.a20897.myapplication.models.ParaModel;
 import com.example.a20897.myapplication.models.UserModel;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 20897 on 2017/12/27.
@@ -50,6 +52,20 @@ public class ResultParser {
 
             }
          return um;
+    }
+    ////anyType{string=http://wz66.top:86/UserDirectories/1234/1/; string=2; }
+    public static ArrayList<String> parseStrings(String response){
+        ArrayList<String> ls=new ArrayList<>();
+        if(!response.isEmpty()){
+            String array[]=response.split("string=");
+            for(String string:array){
+                if(string.contains(";")){
+                    String subarray[]=string.split(";");
+                    ls.add(subarray[0]);
+                }
+            }
+        }
+        return ls;
     }
     public static ArrayList<BlogModel>parseHotBlogs(String response) throws Exception {
 

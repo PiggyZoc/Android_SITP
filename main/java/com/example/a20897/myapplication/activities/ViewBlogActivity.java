@@ -31,7 +31,9 @@ public class ViewBlogActivity extends MyActivity {
 
     private String blog_id;
     private String user_id;
-   private TextView addlike;
+    private TextView textView;
+   private ImageView addlike;
+   private boolean flag;
     private WebView myWebView;
 
     @Override
@@ -42,23 +44,43 @@ public class ViewBlogActivity extends MyActivity {
         ma = this;
         blog_id=String.valueOf(CurrentEditBlog.getInstance().getBlogModel().blog_id);
         user_id= UserAccount.getInstance().getUser().user_id;
+        textView=findViewById(R.id.count);
+       // getCount();
         addlike=findViewById(R.id.add_like);
+        addlike.setImageResource(R.drawable.heart_empty);
+        flag=false;
         addlike.setOnClickListener(mClickLisener1);
         myWebView = findViewById(R.id.webview);
         myWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         myWebView.getSettings().setLoadWithOverviewMode(true);
         loadBolg();
     }
+
+    private void getCount() {
+        QueryManager qm = new QueryManager(ma);
+        qm.execute("getLikesCount","blog_id",blog_id);
+    }
+
     private View.OnClickListener mClickLisener1=v->{
         QueryManager qm = new QueryManager(ma);
-        qm.execute("addLikes","blog_id",blog_id,"user_id",user_id);
+        if(!flag){
+            qm.execute("addLikes","blog_id",blog_id,"user_id",user_id);
+            addlike.setImageResource(R.drawable.heart_red);
+            flag=true;
+        }
+        else {
+            qm.execute("minusLikes","blog_id",blog_id,"user_id",user_id);
+            addlike.setImageResource(R.drawable.heart_empty);
+            flag=false;
+        }
+        getCount();
     };
 
     private void loadBolg() {
 
         QueryManager qm = new QueryManager(ma);
 
-        qm.execute("getBlogURLByID", "blog_id", blog_id);
+        qm.execute("getUrlAndLikes", "blog_id", blog_id);
 
     }
 
@@ -73,11 +95,27 @@ public class ViewBlogActivity extends MyActivity {
                 case "getBlogURLByID":
                     if (!rs.isEmpty()) {
                         myWebView.loadUrl(rs);
-
+                        return;
                     } else {
                         return;
                     }
-                    return;
+                case "getUrlAndLikes":
+                    if (!rs.isEmpty()) {
+                        ArrayList<String> as = ResultParser.parseStrings(rs);
+                        myWebView.loadUrl(as.get(0));
+                        textView.setText(as.get(1));
+                        System.out.println(as.get(1));
+                        return;
+                    } else {
+                        return;
+                    }
+                case "getLikesCount":
+                    if(!rs.isEmpty()){
+                        textView.setText(rs);
+                        return;
+                    }else {
+                        return;
+                    }
             }
         } catch (Exception e) {
             e.printStackTrace();

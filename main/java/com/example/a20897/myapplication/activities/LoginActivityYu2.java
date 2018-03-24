@@ -379,13 +379,7 @@ public class LoginActivityYu2 extends MyActivity implements LoaderCallbacks<Curs
 
             QueryManager mAuthTask=new QueryManager(ma);
 
-            mAuthTask.execute("insertUserInfo",
-                    "user_id", userName,
-                    "password", password,
-                    "uname", userName,
-                    "phone", phone,
-                    "email", email
-            );
+            mAuthTask.execute("insertUserInfo","user_id", userName, "password", password, "uname", userName, "sex", "");
         }
     }
 
