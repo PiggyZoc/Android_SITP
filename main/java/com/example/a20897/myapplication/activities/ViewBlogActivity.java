@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import com.example.a20897.myapplication.MyActivity;
 import com.example.a20897.myapplication.QueryManager;
 import com.example.a20897.myapplication.R;
 import com.example.a20897.myapplication.ResultParser;
+import com.example.a20897.myapplication.UserAccount;
 import com.example.a20897.myapplication.models.ParaModel;
 
 import java.util.ArrayList;
@@ -26,11 +28,10 @@ import java.util.ArrayList;
 
 public class ViewBlogActivity extends MyActivity {
     private MyActivity ma;
-    private ArrayList<ParaModel> paraModel;
-    private ArrayList<String> pos;
-    private ArrayList<String> imgBase64;
+
     private String blog_id;
-    private LinearLayout linearLayout;
+    private String user_id;
+   private TextView addlike;
     private WebView myWebView;
 
     @Override
@@ -40,12 +41,18 @@ public class ViewBlogActivity extends MyActivity {
         setContentView(R.layout.test_viewblog);
         ma = this;
         blog_id=String.valueOf(CurrentEditBlog.getInstance().getBlogModel().blog_id);
+        user_id= UserAccount.getInstance().getUser().user_id;
+        addlike=findViewById(R.id.add_like);
+        addlike.setOnClickListener(mClickLisener1);
         myWebView = findViewById(R.id.webview);
         myWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         myWebView.getSettings().setLoadWithOverviewMode(true);
         loadBolg();
     }
-
+    private View.OnClickListener mClickLisener1=v->{
+        QueryManager qm = new QueryManager(ma);
+        qm.execute("addLikes","blog_id",blog_id,"user_id",user_id);
+    };
 
     private void loadBolg() {
 
@@ -71,11 +78,6 @@ public class ViewBlogActivity extends MyActivity {
                         return;
                     }
                     return;
-
-
-
-
-
             }
         } catch (Exception e) {
             e.printStackTrace();
