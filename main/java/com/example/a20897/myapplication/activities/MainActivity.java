@@ -14,6 +14,7 @@ import com.example.a20897.myapplication.UserAccount;
 import java.util.ArrayList;
 
 public class MainActivity extends MyActivity {
+    private Button btn1;
     private Button btn2;
     private Button btn3;
     private Button btn4;
@@ -41,12 +42,13 @@ public class MainActivity extends MyActivity {
         name = "MainActivity";
         ma = this;
         setContentView(R.layout.activity_main);
-        com.example.a20897.myapplication.activities.ActivityManager.getActivityManager().addActivity(this);
+        btn1 =findViewById(R.id.btn1);
         btn2=findViewById(R.id.btn2);
         btn3=findViewById(R.id.btn3);
         btn4=findViewById(R.id.btn4);
         me_icon=findViewById(R.id.me_icon);
         textView=findViewById(R.id.textView);
+        btn1.setOnClickListener(mClickListener);
         btn2.setOnClickListener(mClickLisener2);
         btn3.setOnClickListener(mClickListener3);
         btn4.setOnClickListener(mClickLisener4);
@@ -58,7 +60,7 @@ public class MainActivity extends MyActivity {
     };
     private View.OnClickListener mClickListener3= v -> {
         Intent intent = new Intent();
-        intent.setClassName(getApplicationContext(),"com.example.a20897.myapplication.activities.LoginActivityYu2");
+        intent.setClassName(getApplicationContext(),"com.example.a20897.myapplication.activities.LoginActivity");
         startActivityForResult(intent,102);
     };
 
