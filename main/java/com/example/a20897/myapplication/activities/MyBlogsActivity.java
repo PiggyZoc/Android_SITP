@@ -2,7 +2,6 @@ package com.example.a20897.myapplication.activities;
 
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.example.a20897.myapplication.MyActivity;
@@ -10,6 +9,7 @@ import com.example.a20897.myapplication.QueryManager;
 import com.example.a20897.myapplication.R;
 import com.example.a20897.myapplication.ResultParser;
 import com.example.a20897.myapplication.UserAccount;
+import com.example.a20897.myapplication.adapter.ListAdapter;
 import com.example.a20897.myapplication.models.BlogModel;
 
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class MyBlogsActivity extends MyActivity {
                             mData.add(map);
                         }
 
-                        ListAdapter adapter = new ListAdapter();
+                        ListAdapter adapter = new ListAdapter(this,mData);
                         listView.setAdapter(adapter);//设置适配器
                     } else {
                        

@@ -24,6 +24,7 @@ public class ListAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private List<Map<String, Object>> mData;
     public ListAdapter(Context context,List<Map<String, Object>> data) {
+        super();
         this.mInflater = LayoutInflater.from(context);
         this.mData=data;
     }
