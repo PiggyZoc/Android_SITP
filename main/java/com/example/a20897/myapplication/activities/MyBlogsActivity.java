@@ -32,6 +32,7 @@ public class MyBlogsActivity extends MyActivity {
         name = "ActivityMyBlogs";
         setContentView(R.layout.myblogs_layout);
         ma = this;
+        ActivityManager.getActivityManager().addActivity(this);
         listView= findViewById(R.id.lv);
         ShowList();
 
@@ -69,6 +70,9 @@ public class MyBlogsActivity extends MyActivity {
                        
                         return;
                     }
+                   
+                   // finish();
+                    //
                     return;
 
             }

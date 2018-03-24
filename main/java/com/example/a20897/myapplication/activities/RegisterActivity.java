@@ -68,6 +68,7 @@ public class RegisterActivity extends MyActivity {
         name = "ActivityRegister";
         setContentView(R.layout.register_layout);
         ma = this;
+        com.example.a20897.myapplication.activities.ActivityManager.getActivityManager().addActivity(this);
         btn = findViewById(R.id.btn2);
         txtId = findViewById(R.id.id);
         txtPsw = findViewById(R.id.psw);

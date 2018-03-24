@@ -11,7 +11,6 @@ public class BlogModel implements Serializable {
     public String title;
     public String Writer_id;
     public String Create_time;
-    public String Writer_name;
     public String blog_url;
 
 }
