@@ -86,15 +86,24 @@ public class MainActivity extends MyActivity {
     }
 
     private View.OnClickListener mClickLisener1=(v)->{
-        QueryManager qm = new QueryManager(ma);
-        qm.execute("getManyBlogs");
-    };
-    private View.OnClickListener mClickLisener5=(v)->{
-        me_icon.setImageResource(R.drawable.people_fill);
+
         Intent intent=new Intent();
         intent.setClass(this,MyLikesActivity.class);
         startActivity(intent);
-        //UserLogout();
+    };
+    private View.OnClickListener mClickLisener5=(v)->{
+        me_icon.setImageResource(R.drawable.people_fill);
+        boolean state=UserAccount.getInstance().getState();
+        if(state){
+            Intent intent = new Intent();
+            intent.setClass(getApplicationContext(),UserDetailActivity.class);
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent();
+            intent.setClass(getApplicationContext(),LoginActivityYu2.class);
+            startActivityForResult(intent,102);
+        }
     };
     private View.OnClickListener mClickListener3= v -> {
         Intent intent = new Intent();
@@ -110,6 +119,11 @@ public class MainActivity extends MyActivity {
             intent.setClassName(getApplicationContext(),"com.example.a20897.myapplication.activities.WriteBlogActivity");
             startActivity(intent);
         }
+        else {
+            Intent intent = new Intent();
+            intent.setClass(getApplicationContext(),LoginActivityYu2.class);
+            startActivityForResult(intent,102);
+        }
     };
     private View.OnClickListener mClickLisener4= v -> {
         boolean state=UserAccount.getInstance().getState();
@@ -117,6 +131,11 @@ public class MainActivity extends MyActivity {
             Intent intent = new Intent();
             intent.setClassName(getApplicationContext(),"com.example.a20897.myapplication.activities.MyBlogsActivity");
             startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent();
+            intent.setClass(getApplicationContext(),LoginActivityYu2.class);
+            startActivityForResult(intent,102);
         }
     };
 

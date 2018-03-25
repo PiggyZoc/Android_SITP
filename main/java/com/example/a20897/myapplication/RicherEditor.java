@@ -30,6 +30,7 @@ import java.util.List;
 public class RicherEditor extends android.support.v7.widget.AppCompatEditText {
     private final String TAG = "PATEditorView";
     private Context mContext;
+    private MyActivity ma;
 
 
     private List<String> mContentList;
@@ -50,6 +51,10 @@ public class RicherEditor extends android.support.v7.widget.AppCompatEditText {
     public RicherEditor(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
+    }
+
+    public void attatchMyActivity(MyActivity myActivity){
+        ma = myActivity;
     }
 
     private void init(Context context) {
@@ -111,20 +116,12 @@ public class RicherEditor extends android.support.v7.widget.AppCompatEditText {
             edit_text.insert(index, spannableString);
             String blog_id=String.valueOf(CurrentEditBlog.getInstance().getBlogModel().blog_id);
             int pos=this.getmContentList().size();
-             QueryManager qm=new QueryManager(new MyActivity() {
-                @Override
-                public void goingOn(ArrayList<String> arrayList) {
-                      //System.out.println("++++++++++++++++++++++++++++++++Successfully Insert");
-                    QueryManager queryManager=new QueryManager(new MyActivity() {
-                        @Override
-                        public void goingOn(ArrayList<String> arrayList) {
-
-                        }
-                    });
-                    queryManager.execute("saveImage","user_id",UserAccount.getInstance().getUser().user_id,"blog_id",String.valueOf(CurrentEditBlog.getInstance().getBlogModel().blog_id),"filename",fileName,"base64string",encode(bitmap));
-                }
-            });
-           qm.execute("createImgFile","user_id",UserAccount.getInstance().getUser().user_id,"blog_id",String.valueOf(CurrentEditBlog.getInstance().getBlogModel().blog_id),"filename",fileName);
+            QueryManager qm=new QueryManager(ma);
+            qm.execute("saveImage",
+                    "user_id",UserAccount.getInstance().getUser().user_id,
+                    "blog_id",String.valueOf(CurrentEditBlog.getInstance().getBlogModel().blog_id),
+                    "filename",fileName,
+                    "base64string",encode(bitmap));
 
         }
         edit_text.insert(index, newLine);//插入图片后换行

@@ -94,6 +94,7 @@ public class WriteBlogActivity extends MyActivity  {
         mBtn=findViewById(R.id.button_add_picture);
         txtTitle=findViewById(R.id.title);
         mEditText=findViewById(R.id.edit_text);
+        mEditText.attatchMyActivity(ma);
         btn.setOnClickListener(mListenser);
         isCreated=false;
         mBtn.setOnClickListener(v -> {
@@ -137,12 +138,7 @@ public class WriteBlogActivity extends MyActivity  {
 
     private void insertTitle(){
         String title=txtTitle.getText().toString();
-        QueryManager qm=new QueryManager(new MyActivity() {
-            @Override
-            public void goingOn(ArrayList<String> arrayList){
-
-            }
-        });
+        QueryManager qm=new QueryManager(ma);
         int blog_id=CurrentEditBlog.getInstance().getBlogModel().blog_id;
         String user_id=String.valueOf(UserAccount.getInstance().getUser().user_id);
         qm.execute("insertTitle","user_id",user_id,"blog_id",String.valueOf(blog_id),"title",title);
@@ -157,22 +153,12 @@ public class WriteBlogActivity extends MyActivity  {
             for (int i=0;i<ls.size();i++){
                 if(!ls.get(i).contains("/")) {
 
-                    QueryManager qm = new QueryManager(new MyActivity() {
-                        @Override
-                        public void goingOn(ArrayList<String> arrayList) {
-
-                        }
-                    });
+                    QueryManager qm = new QueryManager(ma);
                     qm.execute("insertText", "blog_id", String.valueOf(blog_id), "pos", String.valueOf(i+1), "content", ls.get(i),"flag",String.valueOf(2));
                 }
                 else{
                     String[] arr=ls.get(i).split("/");
-                    QueryManager qm = new QueryManager(new MyActivity() {
-                        @Override
-                        public void goingOn(ArrayList<String> arrayList) {
-
-                        }
-                    });
+                    QueryManager qm = new QueryManager(ma);
                     qm.execute("insertText", "blog_id", String.valueOf(blog_id), "pos", String.valueOf(i+1), "content", arr[arr.length-1],"flag",String.valueOf(1));
 
                 }
