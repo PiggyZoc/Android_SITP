@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.EditText;
 
+import com.example.a20897.myapplication.activities.WriteBlogActivity;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -30,7 +32,7 @@ import java.util.List;
 public class RicherEditor extends android.support.v7.widget.AppCompatEditText {
     private final String TAG = "PATEditorView";
     private Context mContext;
-    private MyActivity ma;
+    private WriteBlogActivity writeBlogActivity;
 
 
     private List<String> mContentList;
@@ -53,8 +55,8 @@ public class RicherEditor extends android.support.v7.widget.AppCompatEditText {
         init(context);
     }
 
-    public void attatchMyActivity(MyActivity myActivity){
-        ma = myActivity;
+    public void attatchWriteBlogActivity(WriteBlogActivity activity){
+        writeBlogActivity = activity;
     }
 
     private void init(Context context) {
@@ -116,8 +118,7 @@ public class RicherEditor extends android.support.v7.widget.AppCompatEditText {
             edit_text.insert(index, spannableString);
             String blog_id=String.valueOf(CurrentEditBlog.getInstance().getBlogModel().blog_id);
             int pos=this.getmContentList().size();
-            QueryManager qm=new QueryManager(ma);
-            qm.execute("saveImage",
+            writeBlogActivity.executeQuery("saveImage",
                     "user_id",UserAccount.getInstance().getUser().user_id,
                     "blog_id",String.valueOf(CurrentEditBlog.getInstance().getBlogModel().blog_id),
                     "filename",fileName,

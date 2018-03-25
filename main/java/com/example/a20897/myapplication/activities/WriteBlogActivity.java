@@ -1,7 +1,13 @@
 package com.example.a20897.myapplication.activities;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
+import android.app.LoaderManager;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -11,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.a20897.myapplication.CurrentEditBlog;
 import com.example.a20897.myapplication.MyActivity;
@@ -31,7 +38,7 @@ import java.util.Map;
  */
 
 
-public class WriteBlogActivity extends MyActivity  {
+public class WriteBlogActivity extends MyActivity {
     private MyActivity ma;
     private Button btn;
     private Button mBtn;
@@ -41,6 +48,11 @@ public class WriteBlogActivity extends MyActivity  {
     private Boolean isCreated;
     protected static final int REQUEST_CODE_CAMERA = 2;
     protected static final int REQUEST_CODE_LOCAL = 3;
+    private View mProgressView;
+    private View writeLayout;
+
+    private int querySize = 0;
+    private boolean createSuccess = true;
 
     @Override
     public void goingOn(ArrayList<String> arrayList) {
@@ -60,7 +72,10 @@ public class WriteBlogActivity extends MyActivity  {
 
                             }
                         });
-                        queryManager.execute("createDirectoryOfBlog","user_id",String.valueOf(UserAccount.getInstance().getUser().user_id),"blog_id",String.valueOf(bm.blog_id));
+                        queryManager.execute("createDirectoryOfBlog",
+                                "user_id",String.valueOf(UserAccount.getInstance().getUser().user_id),
+                                "blog_id",String.valueOf(bm.blog_id));
+                        showProgress(true);
                        // System.out.println("部落格ID++++++++++++++"+blogId);
                         /*intent.putExtra("ShowToast", true);
                         setResult(301, intent);
@@ -70,16 +85,61 @@ public class WriteBlogActivity extends MyActivity  {
 
                         return;
                     }
+                    return;
 
                     //  Fan Hui Main
 
-                    //
+                case "insertTitle":
+                    str = result.get(1);
+                    if (--querySize==0) {
+                        if (str.equals("true") && createSuccess)
+                            Toast.makeText(this, "创建成功", Toast.LENGTH_SHORT).show();
+                        this.finish();
+                        showProgress(false);
+                    }
+                    if (str.equals("false")) {
+                        Toast.makeText(this, "创建标题失败", Toast.LENGTH_SHORT).show();
+                        createSuccess = false;
+                    }
                     return;
 
+                case "insertText":
+
+                    str = result.get(1);
+                    if (--querySize==0) {
+                        if (str.equals("true") && createSuccess)
+                            Toast.makeText(this, "创建成功", Toast.LENGTH_SHORT).show();
+                        this.finish();
+                        showProgress(false);
+                    }
+                    if (str.equals("false")) {
+                        Toast.makeText(this, "创建内容失败", Toast.LENGTH_SHORT).show();
+                        createSuccess = false;
+                    }
+                    return;
+
+                case "saveImage":
+
+                    str = result.get(1);
+                    if (str.equals("true")) {
+                        Toast.makeText(this, "上传成功", Toast.LENGTH_SHORT).show();
+                    }
+                    if (str.equals("false")) {
+                        Toast.makeText(this, "上传失败", Toast.LENGTH_SHORT).show();
+                    }
+                    showProgress(false);
+                    return;
+
+                default:
+                    showProgress(false);
             }
         } catch (Exception e) {
             e.printStackTrace();
+
+            Toast.makeText(this, "上传错误", Toast.LENGTH_SHORT).show();
+            showProgress(false);
         }
+
 
     }
     @Override
@@ -94,7 +154,9 @@ public class WriteBlogActivity extends MyActivity  {
         mBtn=findViewById(R.id.button_add_picture);
         txtTitle=findViewById(R.id.title);
         mEditText=findViewById(R.id.edit_text);
-        mEditText.attatchMyActivity(ma);
+        mEditText.attatchWriteBlogActivity(this);
+        mProgressView = findViewById(R.id.write_progress);
+        writeLayout = findViewById(R.id.write_layout);
         btn.setOnClickListener(mListenser);
         isCreated=false;
         mBtn.setOnClickListener(v -> {
@@ -127,11 +189,55 @@ public class WriteBlogActivity extends MyActivity  {
         });
 
     }
+
+    /**
+     * Shows the progress UI and hides the login form.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            writeLayout.setVisibility(show ? View.GONE : View.VISIBLE);
+            writeLayout.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    writeLayout.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
+
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            writeLayout.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
+    }
+
+    public void executeQuery(String... para){
+        QueryManager qm=new QueryManager(ma);
+        qm.execute(para);
+        showProgress(true);
+    }
+
     private void InsertBlogWithoutTitle(){
         String writer_id=UserAccount.getInstance().getUser().user_id;
         QueryManager qm=new QueryManager(ma);
 
         qm.execute("insertBlogWithoutTitle","writer_id",writer_id);
+        showProgress(true);
         return;
     }
 
@@ -142,6 +248,7 @@ public class WriteBlogActivity extends MyActivity  {
         int blog_id=CurrentEditBlog.getInstance().getBlogModel().blog_id;
         String user_id=String.valueOf(UserAccount.getInstance().getUser().user_id);
         qm.execute("insertTitle","user_id",user_id,"blog_id",String.valueOf(blog_id),"title",title);
+        showProgress(true);
     }
     private View.OnClickListener mListenser= new OnClickListener() {
         @Override
@@ -162,9 +269,10 @@ public class WriteBlogActivity extends MyActivity  {
                     qm.execute("insertText", "blog_id", String.valueOf(blog_id), "pos", String.valueOf(i+1), "content", arr[arr.length-1],"flag",String.valueOf(1));
 
                 }
+                querySize = ls.size()+1;
             }
             insertTitle();
-
+            showProgress(true);
 
 
         }
