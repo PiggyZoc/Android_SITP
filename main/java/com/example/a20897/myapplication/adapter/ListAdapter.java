@@ -58,37 +58,33 @@ public class ListAdapter extends BaseAdapter {
 
             convertView = mInflater.inflate(R.layout.vlist, null);
             holder.title=convertView.findViewById(R.id.title);
-            holder.viewBtn = convertView.findViewById(R.id.view_btn);
+            holder.view=convertView.findViewById(R.id.on_click);
+
             convertView.setTag(holder);
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         holder.title.setText((String)mData.get(position).get("title"));
-        holder.viewBtn.setTag(position);
-        //给Button添加单击事件 添加Button之后ListView将失去焦点 需要的直接把Button的焦点去掉
-        holder.viewBtn.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                BlogModel bm=new BlogModel();
-                bm.blog_id=(Integer) mData.get(position).get("info");
-                bm.title=(String)mData.get(position).get("title");
-                CurrentEditBlog.getInstance().setBlogModel(bm);
-                Intent intent=new Intent();
-                intent.setClass(context, ViewBlogActivity.class);
-                context.startActivity(intent);
-            }
+
+        holder.view.setOnClickListener(v -> {
+            BlogModel bm=new BlogModel();
+            bm.blog_id=(Integer) mData.get(position).get("info");
+            bm.title=(String)mData.get(position).get("title");
+            CurrentEditBlog.getInstance().setBlogModel(bm);
+            Intent intent=new Intent();
+            intent.setClass(context, ViewBlogActivity.class);
+            context.startActivity(intent);
         });
 
-        //holder.viewBtn.setOnClickListener(MyListener(position));
 
         return convertView;
 
     }
     private class ViewHolder {
         public TextView title;
-        public Button viewBtn;
+        public View view;
     }
 }
 

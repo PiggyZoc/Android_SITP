@@ -1,13 +1,16 @@
 package com.example.a20897.myapplication.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.a20897.myapplication.CurrentEditBlog;
 import com.example.a20897.myapplication.R;
+import com.example.a20897.myapplication.activities.ViewBlogActivity;
 import com.example.a20897.myapplication.models.BlogModel;
 
 import java.util.List;
@@ -19,8 +22,10 @@ import java.util.List;
 public class InitAdapter extends BaseAdapter {
     private List<?> mData;
     private LayoutInflater mInflater;
+    private Context context;
     public InitAdapter(Context context,List<?> data){
         super();
+        this.context=context;
         this.mInflater=LayoutInflater.from(context);
         this.mData=data;
     }
@@ -64,6 +69,16 @@ public class InitAdapter extends BaseAdapter {
             holder.title.setText(((BlogModel) mObject).title);
             holder.author.setText(((BlogModel) mObject).Writer_name);
             holder.create_time.setText(((BlogModel) mObject).Create_time);
+
+            holder.item_view.setOnClickListener(v -> {
+                BlogModel bm=new BlogModel();
+                bm.blog_id=((BlogModel) mObject).blog_id;
+                bm.title=((BlogModel) mObject).title;
+                CurrentEditBlog.getInstance().setBlogModel(bm);
+                Intent intent=new Intent();
+                intent.setClass(context, ViewBlogActivity.class);
+                context.startActivity(intent);
+            });
         }
         return  convertView;
     }

@@ -32,6 +32,7 @@ public class ViewBlogActivity extends MyActivity {
     private String blog_id;
     private String user_id;
     private TextView textView;
+    private TextView titleView;
    private ImageView addlike;
    private boolean flag;
     private WebView myWebView;
@@ -50,6 +51,7 @@ public class ViewBlogActivity extends MyActivity {
         addlike.setImageResource(R.drawable.heart_empty);
         flag=false;
         addlike.setOnClickListener(mClickLisener1);
+        titleView=findViewById(R.id.title_view);
         myWebView = findViewById(R.id.webview);
         myWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         myWebView.getSettings().setLoadWithOverviewMode(true);
@@ -103,8 +105,9 @@ public class ViewBlogActivity extends MyActivity {
                     if (!rs.isEmpty()) {
                         ArrayList<String> as = ResultParser.parseStrings(rs);
                         myWebView.loadUrl(as.get(0));
-                        textView.setText(as.get(1));
-                        System.out.println(as.get(1));
+                        titleView.setText(as.get(1));
+                        textView.setText(as.get(2));
+
                         return;
                     } else {
                         return;

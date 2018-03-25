@@ -38,6 +38,7 @@ public class WriteBlogActivity extends MyActivity  {
     private EditText txtTitle;
     private RicherEditor mEditText;
     private BlogModel bm;
+    private Boolean isCreated;
     protected static final int REQUEST_CODE_CAMERA = 2;
     protected static final int REQUEST_CODE_LOCAL = 3;
 
@@ -87,19 +88,20 @@ public class WriteBlogActivity extends MyActivity  {
         name = "ActivityWriteBlog";
         setContentView(R.layout.wrireblog_layout);
         ma = this;
-        this.InsertBlogWithoutTitle();
+
         bm=new BlogModel();
         btn=findViewById(R.id.btnPublish);
         mBtn=findViewById(R.id.button_add_picture);
         txtTitle=findViewById(R.id.title);
         mEditText=findViewById(R.id.edit_text);
         btn.setOnClickListener(mListenser);
-
-        mBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectPicFromLocal();//获取手机本地图片的代码，大家可以自行实现
+        isCreated=false;
+        mBtn.setOnClickListener(v -> {
+            if(!isCreated){
+                this.InsertBlogWithoutTitle();
+                isCreated=true;
             }
+            selectPicFromLocal();//获取手机本地图片的代码，大家可以自行实现
         });
 
         mEditText.addTextChangedListener(new TextWatcher() {
@@ -111,6 +113,10 @@ public class WriteBlogActivity extends MyActivity  {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.i("EditActivity",mEditText.getmContentList().toString());
+                if(!isCreated){
+                    InsertBlogWithoutTitle();
+                    isCreated=true;
+                }
             }
 
             @Override
