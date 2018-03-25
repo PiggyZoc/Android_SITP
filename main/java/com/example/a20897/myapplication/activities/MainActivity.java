@@ -84,7 +84,10 @@ public class MainActivity extends MyActivity {
     };
     private View.OnClickListener mClickLisener5=(v)->{
         me_icon.setImageResource(R.drawable.people_fill);
-        UserLogout();
+        Intent intent=new Intent();
+        intent.setClass(this,MyLikesActivity.class);
+        startActivity(intent);
+        //UserLogout();
     };
     private View.OnClickListener mClickListener3= v -> {
         Intent intent = new Intent();
