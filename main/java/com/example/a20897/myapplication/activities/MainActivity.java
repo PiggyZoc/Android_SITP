@@ -33,7 +33,7 @@ public class MainActivity extends MyActivity {
     ArrayList<BlogModel> models;
     private MyActivity ma;
 
-    private static SQLiteDatabase DB = null;
+    private SQLiteDatabase DB = null;
     @Override
     protected void onResume(){
         super.onResume();
@@ -50,6 +50,13 @@ public class MainActivity extends MyActivity {
         }
 
     }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        DB.close();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,6 +161,11 @@ public class MainActivity extends MyActivity {
         }
         cursor.close();
 
+        if (DBUser != null && currentUser != null){
+            DB.execSQL("DROP TABLE USER");
+            createUserTable();
+            DBUser = null;
+        }
         if (DBUser == null && currentUser != null){
             String insertSql = "insert into user(user_id,user_name,password,phone,email) values(?,?,?,?,?)";
             DB.execSQL(insertSql, new String[] {
@@ -163,10 +175,9 @@ public class MainActivity extends MyActivity {
                     currentUser.phone,
                     currentUser.email });
         }
-        if (currentUser == null && DBUser != null){
+        if (DBUser != null && currentUser == null){
             UserAccount.getInstance().setUser(DBUser);
         }
-        DB.close();
     }
 
     private void UserLogout(){
@@ -185,4 +196,5 @@ public class MainActivity extends MyActivity {
                 "email text)";
         DB.execSQL(createSql);
     }
+
 }
