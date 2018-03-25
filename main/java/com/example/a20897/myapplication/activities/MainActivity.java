@@ -86,8 +86,10 @@ public class MainActivity extends MyActivity {
     }
 
     private View.OnClickListener mClickLisener1=(v)->{
-        QueryManager qm = new QueryManager(ma);
-        qm.execute("getManyBlogs");
+
+        Intent intent=new Intent();
+        intent.setClass(this,MyLikesActivity.class);
+        startActivity(intent);
     };
     private View.OnClickListener mClickLisener5=(v)->{
         me_icon.setImageResource(R.drawable.people_fill);

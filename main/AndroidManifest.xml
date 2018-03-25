@@ -27,6 +27,7 @@
         <activity android:name=".activities.WriteBlogActivity" />
         <activity android:name=".activities.MyBlogsActivity" />
         <activity android:name=".activities.ViewBlogActivity" />
+        <activity android:name=".activities.MyLikesActivity"/>
         <activity
             android:name=".activities.LoginActivityYu2"
             android:label="@string/title_activity_login_yu2"></activity>
