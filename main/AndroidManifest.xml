@@ -31,6 +31,8 @@
         <activity
             android:name=".activities.LoginActivityYu2"
             android:label="@string/title_activity_login_yu2"></activity>
+        <activity android:name=".activities.UserDetailActivity"
+            android:label="我的" />
     </application>
 
 </manifest>
