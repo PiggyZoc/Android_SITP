@@ -49,8 +49,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
                     android:background="@drawable/writer_name"
-                    android:layout_marginTop="3.0dip"
-                    android:layout_marginRight="3.0dip"
+                    android:text="HHH"
+                    android:layout_marginRight="4.0sp"
                     android:textSize="24dp"
                     tools:ignore="RtlHardcoded" />
             </LinearLayout>
