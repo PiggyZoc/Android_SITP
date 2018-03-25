@@ -33,6 +33,7 @@ public class ViewBlogActivity extends MyActivity {
     private String user_id;
     private TextView textView;
     private TextView titleView;
+    private TextView writerName;
    private ImageView addlike;
    private boolean flag;
     private WebView myWebView;
@@ -52,6 +53,7 @@ public class ViewBlogActivity extends MyActivity {
         flag=false;
         addlike.setOnClickListener(mClickLisener1);
         titleView=findViewById(R.id.title_view);
+        writerName=findViewById(R.id.writer_name);
         myWebView = findViewById(R.id.webview);
         myWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         myWebView.getSettings().setLoadWithOverviewMode(true);
@@ -106,7 +108,8 @@ public class ViewBlogActivity extends MyActivity {
                         ArrayList<String> as = ResultParser.parseStrings(rs);
                         myWebView.loadUrl(as.get(0));
                         titleView.setText(as.get(1));
-                        textView.setText(as.get(2));
+                        writerName.setText(as.get(2));
+                        textView.setText(as.get(3));
 
                         return;
                     } else {

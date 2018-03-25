@@ -49,7 +49,7 @@ public class MyLikesActivity extends MyActivity {
         String methodName = arrayList.get(0);
         try{
             switch (methodName) {
-                case "getManyBlogs":
+                case "getMyLikesBlogs":
                     if (arrayList.size() > 1) {
                         String rs = arrayList.get(1);
                         models = ResultParser.parseHotBlogs(rs);
