@@ -35,7 +35,7 @@ public class ViewBlogActivity extends MyActivity {
     private TextView titleView;
     private TextView writerName;
    private ImageView addlike;
-   private boolean flag;
+   private boolean isLiked;
     private WebView myWebView;
 
     @Override
@@ -46,11 +46,9 @@ public class ViewBlogActivity extends MyActivity {
         ma = this;
         blog_id=String.valueOf(CurrentEditBlog.getInstance().getBlogModel().blog_id);
         user_id= UserAccount.getInstance().getUser().user_id;
+        judge();
         textView=findViewById(R.id.count);
-       // getCount();
         addlike=findViewById(R.id.add_like);
-        addlike.setImageResource(R.drawable.heart_empty);
-        flag=false;
         addlike.setOnClickListener(mClickLisener1);
         titleView=findViewById(R.id.title_view);
         writerName=findViewById(R.id.writer_name);
@@ -60,6 +58,11 @@ public class ViewBlogActivity extends MyActivity {
         loadBolg();
     }
 
+    private void judge() {
+        QueryManager qm = new QueryManager(ma);
+        qm.execute("getIsLiked","blog_id",blog_id,"user_id",user_id);
+    }
+
     private void getCount() {
         QueryManager qm = new QueryManager(ma);
         qm.execute("getLikesCount","blog_id",blog_id);
@@ -67,15 +70,15 @@ public class ViewBlogActivity extends MyActivity {
 
     private View.OnClickListener mClickLisener1=v->{
         QueryManager qm = new QueryManager(ma);
-        if(!flag){
+        if(!isLiked){
             qm.execute("addLikes","blog_id",blog_id,"user_id",user_id);
             addlike.setImageResource(R.drawable.heart_red);
-            flag=true;
+            isLiked=true;
         }
         else {
             qm.execute("minusLikes","blog_id",blog_id,"user_id",user_id);
             addlike.setImageResource(R.drawable.heart_empty);
-            flag=false;
+            isLiked=false;
         }
         getCount();
     };
@@ -122,6 +125,15 @@ public class ViewBlogActivity extends MyActivity {
                     }else {
                         return;
                     }
+                case "getIsLiked":
+                    if(rs.equals("true")){
+                        addlike.setImageResource(R.drawable.heart_red);
+                        isLiked=true;
+                    }else {
+                        addlike.setImageResource(R.drawable.heart_empty);
+                        isLiked=false;
+                    }
+                    return;
             }
         } catch (Exception e) {
             e.printStackTrace();
