@@ -4,57 +4,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/whitesmoke"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@color/whitesmoke"
     tools:context=".activities.UserDetailActivity">
 
+    <ProgressBar
+        android:id="@+id/user_detail_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:background="@color/white"
+        android:layout_height="match_parent"
+        android:id="@+id/user_detail_layout"
         android:orientation="vertical"
         android:padding="5dp">
 
         <LinearLayout
-            android:minHeight="100dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginBottom="8dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="5dp">
 
-            <com.example.a20897.myapplication.CircleImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/profile"/>
             <LinearLayout
                 android:minHeight="100dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_gravity="center">
-                <TextView
-                    android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:minHeight="100dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="未获取用户名"/>
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <com.example.a20897.myapplication.CircleImageView
+                        android:gravity="center_horizontal"
+                        android:id="@+id/user_detail_photo"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/profile"/>
+
+                    <Button
+                        android:id="@+id/user_detail_edit_photo"
+                        style="?android:textAppearanceSearchResultSubtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_gravity="center_horizontal"
+                        android:textStyle="italic"
+                        android:text="点击上传头像"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:minHeight="100dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <TextView
+                        android:id="@+id/user_detail_user_name"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="未获取用户名"/>
+                    <TextView
+                        android:id="@+id/user_detail_phone"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="电话：尚未填写"/>
+                    <TextView
+                        android:id="@+id/user_detail_email"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="邮箱:尚未填写"/>
+                </LinearLayout>
+
             </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="5dp">
 
         </LinearLayout>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:padding="5dp">
-
     </LinearLayout>
 </LinearLayout>
     <!--<?xml version="1.0" encoding="utf-8"?>-->
