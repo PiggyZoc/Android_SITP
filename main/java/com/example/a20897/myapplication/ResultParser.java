@@ -98,7 +98,10 @@ public class ResultParser {
                                     case " url":
                                         blogModel.blog_url=atom[1];
                                         break;
-
+                                    case "base64string":
+                                        blogModel.Writer_Avatar_String= atom[1];
+                                        //System.out.println(atom[1]);
+                                        break;
                                     default:
                                         break;
                                 }
