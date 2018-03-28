@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -22,17 +25,20 @@ import com.example.a20897.myapplication.models.UserModel;
 
 import java.util.ArrayList;
 
-public class MainActivity extends MyActivity {
+public class MainActivity extends MyActivity implements SwipeRefreshLayout.OnRefreshListener {
     private Button btn1;
     private Button btn2;
     private Button btn3;
     private Button btn4;
     private ImageView me_icon;
     private TextView textView;
+    private InitAdapter initAdapter;
     private ListView hotblogs;
     ArrayList<BlogModel> models;
     private MyActivity ma;
-
+   // private PullToRefreshListView pullToRefreshListView;
+   private SwipeRefreshLayout swiper;
+    private ListView mListView;
     private SQLiteDatabase DB = null;
     @Override
     protected void onResume(){
@@ -69,7 +75,19 @@ public class MainActivity extends MyActivity {
         btn4=findViewById(R.id.btn4);
         me_icon=findViewById(R.id.me_icon);
         textView=findViewById(R.id.textView);
-        hotblogs=findViewById(R.id.hotblogs);
+        //hotblogs=findViewById(R.id.hotblogs);
+        //pullToRefreshListView = findViewById(R.id.pull_refresh_list);
+        swiper = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        //为SwipeRefreshLayout设置监听事件
+        swiper.setOnRefreshListener(this);
+        //为SwipeRefreshLayout设置刷新时的颜色变化，最多可以设置4种
+        swiper.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        //初始化ListView
+        mListView = findViewById(R.id.list_view);
+
         models=new ArrayList<>();
         initUI();
         btn1.setOnClickListener(mClickLisener1);
@@ -148,8 +166,10 @@ public class MainActivity extends MyActivity {
                     if(arrayList.size()>1){
                         String rs=arrayList.get(1);
                         models= ResultParser.parseHotBlogs(rs);
-                        InitAdapter initAdapter=new InitAdapter(this,models);
-                        hotblogs.setAdapter(initAdapter);
+                        initAdapter =new InitAdapter(this,models);
+                        mListView.setAdapter(initAdapter);
+
+
                     }
             }
         }catch (Exception e){}
@@ -219,4 +239,17 @@ public class MainActivity extends MyActivity {
         DB.execSQL(createSql);
     }
 
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(() -> {
+            //结束后停止刷新
+            System.out.println("HelloWorld");
+            models.add(new BlogModel("高云航","yyyy","2017-08-12"));
+            models.add(new BlogModel("刘焱","uuuu","2017-09-13"));
+            models.add(new BlogModel("余杰东","yyiuo","2017-01-13"));
+            initAdapter.notifyDataSetChanged();
+            swiper.setRefreshing(false);
+        }, 3000);
+
+    }
 }
