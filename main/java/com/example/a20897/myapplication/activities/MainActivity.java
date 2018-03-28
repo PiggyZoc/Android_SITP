@@ -33,7 +33,6 @@ public class MainActivity extends MyActivity implements SwipeRefreshLayout.OnRef
     private ImageView me_icon;
     private TextView textView;
     private InitAdapter initAdapter;
-    private ListView hotblogs;
     ArrayList<BlogModel> models;
     private MyActivity ma;
    // private PullToRefreshListView pullToRefreshListView;
@@ -165,7 +164,9 @@ public class MainActivity extends MyActivity implements SwipeRefreshLayout.OnRef
                 case "getManyBlogs":
                     if(arrayList.size()>1){
                         String rs=arrayList.get(1);
+                        System.out.println(rs);
                         models= ResultParser.parseHotBlogs(rs);
+                        System.out.println("++++++++++++++++++++++++++++"+models.size());
                         initAdapter =new InitAdapter(this,models);
                         mListView.setAdapter(initAdapter);
 
@@ -243,10 +244,7 @@ public class MainActivity extends MyActivity implements SwipeRefreshLayout.OnRef
     public void onRefresh() {
         new Handler().postDelayed(() -> {
             //结束后停止刷新
-            System.out.println("HelloWorld");
-            models.add(new BlogModel("高云航","yyyy","2017-08-12"));
-            models.add(new BlogModel("刘焱","uuuu","2017-09-13"));
-            models.add(new BlogModel("余杰东","yyiuo","2017-01-13"));
+
             initAdapter.notifyDataSetChanged();
             swiper.setRefreshing(false);
         }, 3000);

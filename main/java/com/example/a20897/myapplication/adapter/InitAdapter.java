@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.a20897.myapplication.BitmapManager;
 import com.example.a20897.myapplication.CurrentEditBlog;
 import com.example.a20897.myapplication.R;
 import com.example.a20897.myapplication.activities.ViewBlogActivity;
@@ -55,7 +57,9 @@ public class InitAdapter extends BaseAdapter {
 
             convertView = mInflater.inflate(R.layout.initlistitem, null);
             holder.item_view=convertView.findViewById(R.id.item_id);
+            holder.avatar = convertView.findViewById(R.id.blog_writer_photo);
             holder.title=convertView.findViewById(R.id.title_id);
+            holder.paragraph = convertView.findViewById(R.id.paragraph);
             holder.author=convertView.findViewById(R.id.author_name);
             holder.create_time=convertView.findViewById(R.id.create_time);
 
@@ -66,10 +70,11 @@ public class InitAdapter extends BaseAdapter {
 
         final Object mObject = mData.get(position);
         if(mObject!=null&&mObject instanceof BlogModel){
+            holder.avatar.setImageBitmap(BitmapManager.decode(((BlogModel) mObject).Writer_Avatar_String));
             holder.title.setText(((BlogModel) mObject).title);
             holder.author.setText(((BlogModel) mObject).Writer_name);
+            holder.paragraph.setText(((BlogModel) mObject).Paragraph);
             holder.create_time.setText(((BlogModel) mObject).Create_time);
-
             holder.item_view.setOnClickListener(v -> {
                 BlogModel bm=new BlogModel();
                 bm.blog_id=((BlogModel) mObject).blog_id;
@@ -85,8 +90,10 @@ public class InitAdapter extends BaseAdapter {
 
     private class ViewHolder {
         public View item_view;
+        public ImageView avatar;
         public TextView title;
         public TextView author;
+        public TextView paragraph;
         public TextView create_time;
     }
 }
