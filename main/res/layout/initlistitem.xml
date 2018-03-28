@@ -43,6 +43,7 @@
         <TextView
             android:id="@+id/title_id"
             android:text="标题"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"
@@ -52,6 +53,7 @@
         <TextView
             android:id="@+id/paragraph"
             android:text="第一段"
+            android:maxLines="3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
