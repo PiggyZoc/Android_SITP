@@ -61,6 +61,9 @@ public class WriteBlogActivity extends MyActivity {
         Intent intent = new Intent();
         try {
             switch (methodName) {
+                case "createDirectoryOfBlog":
+                    showProgress(false);
+                    return;
                 case "insertBlogWithoutTitle":
                     String str = result.get(1);
                     if (!str.equals("false")) {
@@ -75,7 +78,6 @@ public class WriteBlogActivity extends MyActivity {
                         queryManager.execute("createDirectoryOfBlog",
                                 "user_id",String.valueOf(UserAccount.getInstance().getUser().user_id),
                                 "blog_id",String.valueOf(bm.blog_id));
-                        showProgress(true);
                        // System.out.println("部落格ID++++++++++++++"+blogId);
                         /*intent.putExtra("ShowToast", true);
                         setResult(301, intent);
