@@ -35,6 +35,7 @@ public class RicherEditor extends android.support.v7.widget.AppCompatEditText {
     private WriteBlogActivity writeBlogActivity;
 
 
+
     private List<String> mContentList;
 
     public static final String mBitmapTag = "☆";

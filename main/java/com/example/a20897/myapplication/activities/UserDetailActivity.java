@@ -70,6 +70,7 @@ public class UserDetailActivity extends MyActivity {
     protected void onResume(){
         super.onResume();
         um = UserAccount.getInstance().getUser();
+        showToast(um.user_id);
     }
 
 
@@ -155,6 +156,12 @@ public class UserDetailActivity extends MyActivity {
         }
     }
 
+    private void setUser_photo_view(){
+        if (user_photo == null)
+            return;
+        user_photo_view.setImageBitmap(user_photo);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -198,6 +205,8 @@ public class UserDetailActivity extends MyActivity {
                 System.out.println(imageurl);
 
                 Bitmap bitmap = BitmapFactory.decodeFile(imageurl);
+                user_photo = bitmap;
+//                setUser_photo_view();
                 String base64 = BitmapManager.encode(user_photo);
 
                 QueryManager qm = new QueryManager(this);
@@ -214,7 +223,6 @@ public class UserDetailActivity extends MyActivity {
     @Override
     public void goingOn(ArrayList<String> arrayList) {
         showProgress(false);
-        um=new UserModel();
         String methodName = arrayList.get(0);
         Intent intent = new Intent();
         boolean have_error = false;
@@ -225,7 +233,7 @@ public class UserDetailActivity extends MyActivity {
                     if (arrayList.size() > 1) {
                         String rs = arrayList.get(1);
                         if (rs.equals("true")) {
-                            user_photo_view.setImageBitmap(user_photo);
+                            setUser_photo_view();
                             have_error = false;
                         }
                     }
@@ -236,17 +244,19 @@ public class UserDetailActivity extends MyActivity {
                     //
                     return;
                 case "getAvatarById":
-                    have_error = true;
-                    if (arrayList.size() > 1) {
-                        String rs = arrayList.get(1);
-                        if (!rs.isEmpty()) {
-                            user_photo = BitmapManager.decode(rs);
-                            user_photo_view.setImageBitmap(user_photo);
-                            have_error = false;
-                        }
-                    }
-                    if (have_error) {
+                    if (arrayList.size() <= 1) {
+                        showToast("server error:getAvatarById-size");
                         return;
+                    }
+                    String rs = arrayList.get(1);
+                    if (rs.isEmpty()) {
+                        showToast("server error:getAvatarById-empty");
+                        return;
+                    }
+                    Bitmap bitmapTmp = BitmapManager.decode(rs);
+                    if (bitmapTmp != null){
+                        user_photo = bitmapTmp;
+                        setUser_photo_view();
                     }
                     //
                     return;

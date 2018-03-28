@@ -379,7 +379,11 @@ public class LoginActivityYu2 extends MyActivity implements LoaderCallbacks<Curs
 
             QueryManager mAuthTask=new QueryManager(ma);
 
-            mAuthTask.execute("insertUserInfo","user_id", userName, "password", password, "uname", userName, "sex", "");
+            mAuthTask.execute("insertUserInfo",
+                    "user_id", userName,
+                    "password", password,
+                    "uname", userName,
+                    "sex", "");
         }
     }
 
@@ -488,7 +492,6 @@ public class LoginActivityYu2 extends MyActivity implements LoaderCallbacks<Curs
     public void goingOn(ArrayList<String> arrayList) {
         showProgress(false);
         mAuthTask = null;
-        um=new UserModel();
         String methodName = arrayList.get(0);
         Intent intent = new Intent();
         boolean have_error = false;
@@ -499,6 +502,7 @@ public class LoginActivityYu2 extends MyActivity implements LoaderCallbacks<Curs
                     if (arrayList.size() > 1) {
                         String rs = arrayList.get(1);
                         if (!rs.isEmpty()) {
+                            um=new UserModel();
                             um= ResultParser.parseUser(rs);
                             have_error = false;
                         }

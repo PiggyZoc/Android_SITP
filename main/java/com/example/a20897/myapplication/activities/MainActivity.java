@@ -175,11 +175,11 @@ public class MainActivity extends MyActivity {
         cursor.moveToFirst();
         if (cursor.getCount()>0) {
             DBUser = new UserModel();
-            DBUser.user_id=cursor.getString(0);
-            DBUser.user_name=cursor.getString(1);
-            DBUser.password=cursor.getString(2);
-            DBUser.phone=cursor.getString(3);
-            DBUser.email=cursor.getString(4);
+            DBUser.user_id=cursor.getString(1);
+            DBUser.user_name=cursor.getString(2);
+            DBUser.password=cursor.getString(3);
+            DBUser.phone=cursor.getString(4);
+            DBUser.email=cursor.getString(5);
         }
         cursor.close();
 

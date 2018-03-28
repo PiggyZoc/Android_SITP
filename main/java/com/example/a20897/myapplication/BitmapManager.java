@@ -27,12 +27,12 @@ public class BitmapManager {
 
     public static String encode(Bitmap bitmap){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        int quality = 80*100 / bitmap.getHeight();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, baos);
         byte[] bytes = baos.toByteArray();
-
         //base64 encode
-        byte[] encode = Base64.encode(bytes,Base64.DEFAULT);
-        return new String(encode);
+        String imageEncoded = Base64.encodeToString(bytes,Base64.DEFAULT);
+        return imageEncoded;
     }
 
 
