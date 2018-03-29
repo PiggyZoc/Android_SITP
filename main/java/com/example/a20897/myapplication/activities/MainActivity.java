@@ -165,6 +165,7 @@ public class MainActivity extends MyActivity implements SwipeRefreshLayout.OnRef
                     if(arrayList.size()>1){
                         String rs=arrayList.get(1);
                         models= ResultParser.parseHotBlogs(rs);
+
                         initAdapter =new InitAdapter(this,models);
                         mListView.setAdapter(initAdapter);
                         initAdapter.notifyDataSetChanged();

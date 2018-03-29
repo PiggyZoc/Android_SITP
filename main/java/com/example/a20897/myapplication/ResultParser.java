@@ -1,12 +1,24 @@
 package com.example.a20897.myapplication;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.widget.ImageView;
+
 import com.example.a20897.myapplication.models.BlogModel;
 import com.example.a20897.myapplication.models.ParaModel;
 import com.example.a20897.myapplication.models.UserModel;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by 20897 on 2017/12/27.
@@ -15,6 +27,7 @@ import java.util.List;
 public class ResultParser {
 
 
+    public static Bitmap bitmap;
     public static UserModel parseUser(String response) throws Exception{
            UserModel um=new UserModel();
             if(!response.isEmpty()) {
@@ -99,7 +112,9 @@ public class ResultParser {
                                         blogModel.blog_url=atom[1];
                                         break;
                                     case " base64string":
-                                        blogModel.Writer_Avatar_String= BitmapManager.decode(atom[1]);
+                                        //blogModel.Writer_Avatar_String= BitmapManager.decode(atom[1]);
+                                        //setIamge();
+                                        //blogModel.Writer_Avatar_String = bitmap;
                                         break;
                                     case " paragraph":
                                         blogModel.Paragraph = atom[1];
@@ -232,4 +247,29 @@ public class ResultParser {
         return arrayList;
 
     }
+    public static void setIamge()
+    {
+        String url = "http://wz66.top:86/UserDirectories/1234/1/NOTE20180116004003.png";
+        OkHttpClient client = new OkHttpClient();
+        //构造Request对象
+        //采用建造者模式，链式调用指明进行Get请求,传入Get的请求地址
+        Request request = new Request.Builder().get().url(url).build();
+        Call call = client.newCall(request);
+        //异步调用并设置回调函数
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                //final String responseStr = response.body().string();
+                final InputStream inputStream = response.body().byteStream();
+                bitmap = BitmapFactory.decodeStream(inputStream);
+            }
+        });
+
+    }
+
 }
