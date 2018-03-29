@@ -18,6 +18,7 @@ public class BlogModel implements Serializable {
     public String blog_url;
     public Bitmap Writer_Avatar_String;
     public String Paragraph;
+    public String Likes;
     public BlogModel(String title, String name,String create_time){
         this.title = title;
         this.Writer_name = name;
@@ -26,5 +27,11 @@ public class BlogModel implements Serializable {
 
     public BlogModel() {
 
+    }
+
+    public void recycle(){
+        if (Writer_Avatar_String != null){
+            Writer_Avatar_String.recycle();
+        }
     }
 }

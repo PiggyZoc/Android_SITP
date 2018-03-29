@@ -101,6 +101,12 @@ public class ResultParser {
                                     case " base64string":
                                         blogModel.Writer_Avatar_String= BitmapManager.decode(atom[1]);
                                         break;
+                                    case " paragraph":
+                                        blogModel.Paragraph = atom[1];
+                                        break;
+                                    case " likes":
+                                        blogModel.Likes = atom[1];
+                                        break;
                                     default:
                                         break;
                                 }

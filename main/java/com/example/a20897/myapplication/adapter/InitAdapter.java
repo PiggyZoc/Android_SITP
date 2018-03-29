@@ -62,7 +62,7 @@ public class InitAdapter extends BaseAdapter {
             holder.paragraph = convertView.findViewById(R.id.paragraph);
             holder.author=convertView.findViewById(R.id.author_name);
             holder.create_time=convertView.findViewById(R.id.create_time);
-
+            holder.likes=convertView.findViewById(R.id.blog_likes);
             convertView.setTag(holder);
         }else {
             holder = (ViewHolder) convertView.getTag();
@@ -74,6 +74,7 @@ public class InitAdapter extends BaseAdapter {
             holder.title.setText(((BlogModel) mObject).title);
             holder.author.setText(((BlogModel) mObject).Writer_name);
             holder.paragraph.setText(((BlogModel) mObject).Paragraph);
+            holder.likes.setText(((BlogModel) mObject).Likes);
             holder.create_time.setText(((BlogModel) mObject).Create_time);
             holder.item_view.setOnClickListener(v -> {
                 BlogModel bm=new BlogModel();
@@ -94,6 +95,7 @@ public class InitAdapter extends BaseAdapter {
         public TextView title;
         public TextView author;
         public TextView paragraph;
+        public TextView likes;
         public TextView create_time;
     }
 }

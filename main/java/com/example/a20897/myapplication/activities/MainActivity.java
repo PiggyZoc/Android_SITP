@@ -100,6 +100,7 @@ public class MainActivity extends MyActivity implements SwipeRefreshLayout.OnRef
     private void initUI() {
         QueryManager qm = new QueryManager(ma);
         qm.execute("getManyBlogs");
+        swiper.setRefreshing(true);
     }
     private View.OnClickListener mClickLisener1=(v)->{
 
@@ -166,7 +167,8 @@ public class MainActivity extends MyActivity implements SwipeRefreshLayout.OnRef
                         models= ResultParser.parseHotBlogs(rs);
                         initAdapter =new InitAdapter(this,models);
                         mListView.setAdapter(initAdapter);
-
+                        initAdapter.notifyDataSetChanged();
+                        swiper.setRefreshing(false);
 
                     }
             }
@@ -239,12 +241,14 @@ public class MainActivity extends MyActivity implements SwipeRefreshLayout.OnRef
 
     @Override
     public void onRefresh() {
-        new Handler().postDelayed(() -> {
-            //结束后停止刷新
-
-            initAdapter.notifyDataSetChanged();
-            swiper.setRefreshing(false);
-        }, 3000);
-
+        for (int i = 0 ; i < models.size(); i ++){
+            models.get(i).recycle();
+        }
+        models = null;
+        models = new ArrayList<BlogModel>();
+        initUI();
+//        QueryManager qm = new QueryManager(ma);
+//        qm.execute("getManyBlogs");
+//        swiper.setRefreshing(false);
     }
 }
