@@ -70,7 +70,7 @@ public class InitAdapter extends BaseAdapter {
 
         final Object mObject = mData.get(position);
         if(mObject!=null&&mObject instanceof BlogModel){
-            holder.avatar.setImageBitmap(BitmapManager.decode(((BlogModel) mObject).Writer_Avatar_String));
+            holder.avatar.setImageBitmap(((BlogModel) mObject).Writer_Avatar_String);
             holder.title.setText(((BlogModel) mObject).title);
             holder.author.setText(((BlogModel) mObject).Writer_name);
             holder.paragraph.setText(((BlogModel) mObject).Paragraph);

@@ -30,6 +30,8 @@ public class MainActivity extends MyActivity implements SwipeRefreshLayout.OnRef
     private Button btn2;
     private Button btn3;
     private Button btn4;
+    private Button only_fo_test_btn;
+    private Button only_fo_test_btn1;
     private ImageView me_icon;
     private TextView textView;
     private InitAdapter initAdapter;
@@ -72,6 +74,8 @@ public class MainActivity extends MyActivity implements SwipeRefreshLayout.OnRef
         btn2=findViewById(R.id.btn2);
         btn3=findViewById(R.id.btn3);
         btn4=findViewById(R.id.btn4);
+        only_fo_test_btn = findViewById(R.id.only_for_test);
+        only_fo_test_btn1=findViewById(R.id.only_for_test1);
         me_icon=findViewById(R.id.me_icon);
         textView=findViewById(R.id.textView);
         //hotblogs=findViewById(R.id.hotblogs);
@@ -94,14 +98,24 @@ public class MainActivity extends MyActivity implements SwipeRefreshLayout.OnRef
         btn3.setOnClickListener(mClickListener3);
         btn4.setOnClickListener(mClickLisener4);
         me_icon.setOnClickListener(mClickLisener5);
-
+        only_fo_test_btn.setOnClickListener(mClickListener6);
+        only_fo_test_btn1.setOnClickListener(mClickListener7);
     }
 
     private void initUI() {
         QueryManager qm = new QueryManager(ma);
         qm.execute("getManyBlogs");
     }
-
+    private  View.OnClickListener mClickListener6=(v)->{
+        Intent intent=new Intent();
+        intent.setClass(this,UserDetailActivity.class);
+        startActivity(intent);
+    };
+    private  View.OnClickListener mClickListener7=(v)->{
+        Intent intent=new Intent();
+        intent.setClass(this,LoginActivityYu2.class);
+        startActivity(intent);
+    };
     private View.OnClickListener mClickLisener1=(v)->{
 
         Intent intent=new Intent();
@@ -164,9 +178,7 @@ public class MainActivity extends MyActivity implements SwipeRefreshLayout.OnRef
                 case "getManyBlogs":
                     if(arrayList.size()>1){
                         String rs=arrayList.get(1);
-                        System.out.println(rs);
                         models= ResultParser.parseHotBlogs(rs);
-                        System.out.println("++++++++++++++++++++++++++++"+models.size());
                         initAdapter =new InitAdapter(this,models);
                         mListView.setAdapter(initAdapter);
 

@@ -77,6 +77,15 @@
              />
     </LinearLayout>
 
-
 </LinearLayout>
+    <Button
+        android:id="@+id/only_for_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="仅用于测试_用户信息"/>
+    <Button
+        android:id="@+id/only_for_test1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="仅用于测试_登陆"/>
 </LinearLayout>

@@ -16,7 +16,7 @@ public class BlogModel implements Serializable {
     public String Create_time;
     public String Writer_name;
     public String blog_url;
-    public String Writer_Avatar_String;
+    public Bitmap Writer_Avatar_String;
     public String Paragraph;
     public BlogModel(String title, String name,String create_time){
         this.title = title;
