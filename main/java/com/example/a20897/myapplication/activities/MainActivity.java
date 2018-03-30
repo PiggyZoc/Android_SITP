@@ -133,15 +133,19 @@ public class MainActivity extends MyActivity implements SwipeRefreshLayout.OnRef
                 bitmap = BitmapFactory.decodeStream(inputStream);
                 for(int i=0;i<models.size();i++)
                     models.get(i).Writer_Avatar_String = bitmap;
+                MainActivity.this.runOnUiThread(() -> {
+                    //Handle UI here
+                    initAdapter.notifyDataSetChanged();
+                   /// findViewById(R.id.loading).setVisibility(View.GONE);
+                });
 
-                initAdapter =new InitAdapter(ma,models);
-                mListView.setAdapter(initAdapter);
-                initAdapter.notifyDataSetChanged();
-                swiper.setRefreshing(false);
             }
         });
 
     }
+
+
+
     private View.OnClickListener mClickLisener1=(v)->{
 
         Intent intent=new Intent();
@@ -205,6 +209,10 @@ public class MainActivity extends MyActivity implements SwipeRefreshLayout.OnRef
                     if(arrayList.size()>1){
                         String rs=arrayList.get(1);
                         models= ResultParser.parseHotBlogs(rs);
+                        initAdapter =new InitAdapter(this,models);
+                        mListView.setAdapter(initAdapter);
+                        initAdapter.notifyDataSetChanged();
+                        swiper.setRefreshing(false);
                         setIamge();
                     }
             }

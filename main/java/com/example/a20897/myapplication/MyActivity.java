@@ -16,7 +16,6 @@ public abstract class MyActivity extends Activity {
     {
         return name;
     }
-
     public void showToast(String toast){
         Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
     }

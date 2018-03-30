@@ -202,8 +202,9 @@ public class UserDetailActivity extends MyActivity {
 //                    imgUriSel = FileProvider.getUriForFile(this, getPackageName() + ".provider", new File(imageurl));
                 }
 
-                System.out.println(imageurl);
-
+                //System.out.println(imageurl);
+                String[] Names=imageurl.split("/");
+                final String imageName=Names[Names.length-1];
                 Bitmap bitmap = BitmapFactory.decodeFile(imageurl);
                 user_photo = bitmap;
 //                setUser_photo_view();
@@ -212,7 +213,8 @@ public class UserDetailActivity extends MyActivity {
                 QueryManager qm = new QueryManager(this);
                 qm.execute("insertAvatarById",
                         "user_id",um.user_id,
-                        "base64string",base64);
+                        "base64string",base64,
+                        "file_name",imageName);
                 showProgress(true);
 
             }
