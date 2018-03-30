@@ -3,15 +3,14 @@ package com.example.a20897.myapplication.activities;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.a20897.myapplication.MyActivity;
@@ -23,7 +22,15 @@ import com.example.a20897.myapplication.adapter.InitAdapter;
 import com.example.a20897.myapplication.models.BlogModel;
 import com.example.a20897.myapplication.models.UserModel;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends MyActivity implements SwipeRefreshLayout.OnRefreshListener {
     private Button btn1;
@@ -33,6 +40,7 @@ public class MainActivity extends MyActivity implements SwipeRefreshLayout.OnRef
     private ImageView me_icon;
     private TextView textView;
     private InitAdapter initAdapter;
+    private Bitmap bitmap;
     ArrayList<BlogModel> models;
     private MyActivity ma;
    // private PullToRefreshListView pullToRefreshListView;
@@ -86,7 +94,7 @@ public class MainActivity extends MyActivity implements SwipeRefreshLayout.OnRef
                 android.R.color.holo_red_light);
         //初始化ListView
         mListView = findViewById(R.id.list_view);
-
+        //setIamge();
         models=new ArrayList<>();
         initUI();
         btn1.setOnClickListener(mClickLisener1);
@@ -98,9 +106,41 @@ public class MainActivity extends MyActivity implements SwipeRefreshLayout.OnRef
     }
 
     private void initUI() {
+
         QueryManager qm = new QueryManager(ma);
         qm.execute("getManyBlogs");
-        swiper.setRefreshing(true);
+//        swiper.setRefreshing(true);
+    }
+    private void setIamge()
+    {
+        String url = "http://wz66.top:86/UserDirectories/1234/1/NOTE20180116004003.png";
+        OkHttpClient client = new OkHttpClient();
+        //构造Request对象
+        //采用建造者模式，链式调用指明进行Get请求,传入Get的请求地址
+        Request request = new Request.Builder().get().url(url).build();
+        Call call = client.newCall(request);
+        //异步调用并设置回调函数
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                //final String responseStr = response.body().string();
+                final InputStream inputStream = response.body().byteStream();
+                bitmap = BitmapFactory.decodeStream(inputStream);
+                for(int i=0;i<models.size();i++)
+                    models.get(i).Writer_Avatar_String = bitmap;
+
+                initAdapter =new InitAdapter(ma,models);
+                mListView.setAdapter(initAdapter);
+                initAdapter.notifyDataSetChanged();
+                swiper.setRefreshing(false);
+            }
+        });
+
     }
     private View.OnClickListener mClickLisener1=(v)->{
 
@@ -165,12 +205,7 @@ public class MainActivity extends MyActivity implements SwipeRefreshLayout.OnRef
                     if(arrayList.size()>1){
                         String rs=arrayList.get(1);
                         models= ResultParser.parseHotBlogs(rs);
-
-                        initAdapter =new InitAdapter(this,models);
-                        mListView.setAdapter(initAdapter);
-                        initAdapter.notifyDataSetChanged();
-                        swiper.setRefreshing(false);
-
+                        setIamge();
                     }
             }
         }catch (Exception e){}

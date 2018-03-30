@@ -27,7 +27,7 @@ import okhttp3.Response;
 public class ResultParser {
 
 
-    public static Bitmap bitmap;
+    //public static Bitmap bitmap;
     public static UserModel parseUser(String response) throws Exception{
            UserModel um=new UserModel();
             if(!response.isEmpty()) {
@@ -247,29 +247,6 @@ public class ResultParser {
         return arrayList;
 
     }
-    public static void setIamge()
-    {
-        String url = "http://wz66.top:86/UserDirectories/1234/1/NOTE20180116004003.png";
-        OkHttpClient client = new OkHttpClient();
-        //构造Request对象
-        //采用建造者模式，链式调用指明进行Get请求,传入Get的请求地址
-        Request request = new Request.Builder().get().url(url).build();
-        Call call = client.newCall(request);
-        //异步调用并设置回调函数
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
 
-            }
-
-            @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-                //final String responseStr = response.body().string();
-                final InputStream inputStream = response.body().byteStream();
-                bitmap = BitmapFactory.decodeStream(inputStream);
-            }
-        });
-
-    }
 
 }
