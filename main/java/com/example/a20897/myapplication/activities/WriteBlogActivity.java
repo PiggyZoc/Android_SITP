@@ -69,12 +69,7 @@ public class WriteBlogActivity extends MyActivity {
                     if (!str.equals("false")) {
                         bm.blog_id=Integer.parseInt(str);
                         CurrentEditBlog.getInstance().setBlogModel(bm);
-                        QueryManager queryManager=new QueryManager(new MyActivity() {
-                            @Override
-                            public void goingOn(ArrayList<String> arrayList) {
-
-                            }
-                        });
+                        QueryManager queryManager=new QueryManager(ma);
                         queryManager.execute("createDirectoryOfBlog",
                                 "user_id",String.valueOf(UserAccount.getInstance().getUser().user_id),
                                 "blog_id",String.valueOf(bm.blog_id));
@@ -84,7 +79,7 @@ public class WriteBlogActivity extends MyActivity {
                         finish();*/
 
                     } else {
-
+                        showProgress(false);
                         return;
                     }
                     return;
@@ -102,6 +97,7 @@ public class WriteBlogActivity extends MyActivity {
                     if (str.equals("false")) {
                         Toast.makeText(this, "创建标题失败", Toast.LENGTH_SHORT).show();
                         createSuccess = false;
+                        showProgress(false);
                     }
                     return;
 
@@ -117,6 +113,7 @@ public class WriteBlogActivity extends MyActivity {
                     if (str.equals("false")) {
                         Toast.makeText(this, "创建内容失败", Toast.LENGTH_SHORT).show();
                         createSuccess = false;
+                        showProgress(false);
                     }
                     return;
 
